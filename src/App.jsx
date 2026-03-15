@@ -1,19 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { 
   Github, Linkedin, Mail, Instagram, 
   Server, Database, Code, 
-  Cpu, Shield, Zap, ExternalLink, Activity, Wifi, Lock, 
-  Terminal as TerminalIcon, GraduationCap, Settings, Eye, Gauge,
-  MessageSquare, Send
+  Cpu, Shield, Zap, GraduationCap, 
+  MessageSquare, ChevronRight, CheckCircle2, LayoutTemplate
 } from 'lucide-react';
 
 // --- DATA PRIBADI ---
 const portfolioData = {
   name: "Kautsar Rifqi Aditya",
   role: "Full-Stack Systems Architect",
-  bio: "Mengorkestrasi data dalam skala masif. Membangun sistem yang tak hanya berjalan, tapi berlari. Spesialisasi dalam High-Concurrency Systems dan Distributed Architecture.",
-  email: "kautsarrifqi1@gmail.com", // Email asli nanti muncul setelah didekripsi
+  bio: "Mengorkestrasi data dalam skala masif. Membangun sistem yang tak hanya berjalan, tapi efisien dan skalabel. Saya berfokus pada arsitektur backend, keamanan sistem, dan performa tinggi.",
+  email: "kautsarrifqi1@gmail.com", 
   phone: "6282133454277",
   
   education: [
@@ -21,216 +20,90 @@ const portfolioData = {
       school: "Universitas Jenderal Soedirman",
       degree: "S1 Informatika",
       year: "2025 - Present",
-      desc: "Research Focus: Distributed Systems & Cloud Computing Security.",
-      status: "Current Kernel"
+      desc: "Fokus pada algoritma tingkat lanjut, struktur data, dan pengembangan perangkat lunak berbasis tim.",
     },
     {
       school: "SMK Telkom Purwokerto",
       degree: "Rekayasa Perangkat Lunak",
       year: "2021 - 2024",
-      desc: "Graduated with High Distinction. Best Capstone Project Award.",
-      status: "Legacy Core"
+      desc: "Membangun fondasi kuat dalam pemrograman dasar, pembuatan website, dan manajemen basis data.",
     }
   ],
   
   skills: [
-    { name: "Python / Django", level: 98, icon: <Code size={18} /> },
-    { name: "Go-lang (Concurrency)", level: 95, icon: <Zap size={18} /> },
-    { name: "Database Sharding", level: 92, icon: <Database size={18} /> },
-    { name: "System Security", level: 90, icon: <Shield size={18} /> },
+    { name: "Python", icon: <Code size={20} /> },
+    { name: "Go-lang", icon: <Zap size={20} /> },
+    { name: "JavaScript", icon: <LayoutTemplate size={20} /> },
+    { name: "SQL & Database", icon: <Database size={20} /> },
   ],
   
   projects: [
     {
-      title: "Vortex API Gateway",
-      tag: "Infrastructure",
-      desc: "Menangani 1M+ request/detik dengan latency <10ms menggunakan Go-routines.",
-      tech: ["Go", "gRPC", "Redis Cluster"],
+      title: "E-Voting OSIS SMK Telkom",
+      tag: "Web Application",
+      desc: "Sistem pemilihan ketua OSIS digital yang dirancang untuk memastikan transparansi, keamanan data pemilih, dan perhitungan suara real-time.",
+      tech: ["JavaScript", "SQL", "Web Tech"],
     },
     {
-      title: "Project A.S.A.P",
-      tag: "Health Tech",
-      desc: "Analisis Big Data untuk pola komunikasi P-Process pada kampanye anti-rokok.",
-      tech: ["Python", "Pandas", "NLP"],
+      title: "Women's Course LMS",
+      tag: "E-Learning",
+      desc: "Sistem Manajemen Pembelajaran (LMS) khusus berupa website kursus untuk wanita, dilengkapi fitur manajemen materi dan progres belajar.",
+      tech: ["Python", "SQL", "JavaScript"],
     },
     {
-      title: "Musyang 2025 VoteChain",
-      tag: "Blockchain",
-      desc: "Sistem voting terdesentralisasi untuk musyawarah organisasi, anti-manipulasi.",
-      tech: ["Solidity", "Node.js", "Merkle Tree"],
+      title: "Idealibs Asset Platform",
+      tag: "Digital Asset",
+      desc: "Platform penyedia aset digital interaktif bergaya mirip Freepik, dirancang untuk mempermudah pencarian dan pengunduhan referensi visual.",
+      tech: ["Golang", "JavaScript", "SQL"],
+    },
+    {
+      title: "Project Tracker Tool",
+      tag: "Management System",
+      desc: "Website pemantau pekerjaan dan progres proyek yang dikembangkan khusus untuk kebutuhan kompetisi/perlombaan.",
+      tech: ["Python", "JavaScript", "SQL"],
+    },
+    {
+      title: "Sistem Profil Kelurahan",
+      tag: "Company Profile",
+      desc: "Portal informasi interaktif untuk kelurahan guna memudahkan penyampaian data dan informasi publik kepada warga setempat.",
+      tech: ["JavaScript", "HTML/CSS", "SQL"],
     }
   ]
 };
 
-// --- COMPONENT: DECRYPTOR BUTTON (CONTACT) ---
-const DecryptorContact = () => {
-  const [decrypted, setDecrypted] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
-
-  const handleDecrypt = () => {
-    if (decrypted || isRunning) return;
-    setIsRunning(true);
-    let p = 0;
-    const interval = setInterval(() => {
-      p += Math.floor(Math.random() * 15);
-      if (p >= 100) {
-        p = 100;
-        clearInterval(interval);
-        setDecrypted(true);
-        setIsRunning(false);
-      }
-      setProgress(p);
-    }, 100);
-  };
-
+// --- COMPONENT: STATIC CODE WINDOW ---
+const CodeProfileWindow = () => {
   return (
-    <div className="glass-card p-6 rounded-2xl border border-white/10 text-center max-w-md mx-auto mt-12">
-      <h3 className="text-xl font-bold mb-4 flex justify-center items-center gap-2">
-        <Lock size={18} className={decrypted ? "text-green-500" : "text-red-500"} />
-        SECURE CONTACT CHANNEL
-      </h3>
-      
-      {!decrypted ? (
-        <div className="space-y-4">
-          <div className="font-mono text-gray-500 tracking-widest bg-black/30 p-3 rounded">
-            ***********************
-          </div>
-          {isRunning ? (
-            <div className="w-full bg-gray-700 h-2 rounded-full overflow-hidden">
-              <div className="bg-green-500 h-full transition-all duration-100" style={{ width: `${progress}%` }}></div>
-            </div>
-          ) : (
-            <button 
-              onClick={handleDecrypt}
-              className="bg-red-500/20 hover:bg-red-500/40 text-red-300 px-6 py-2 rounded-lg font-mono text-sm border border-red-500/50 transition-all hover:scale-105 active:scale-95"
-            >
-              [ RUN DECRYPTION PROTOCOL ]
-            </button>
-          )}
-          {isRunning && <p className="text-xs text-green-500 font-mono animate-pulse">Brute-forcing encryption keys...</p>}
-        </div>
-      ) : (
-        <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }}>
-          <div className="font-mono text-green-400 text-lg mb-2 select-all bg-green-900/20 p-3 rounded border border-green-500/30">
-            {portfolioData.email}
-          </div>
-          <p className="text-xs text-gray-500">Access Granted. Logged.</p>
-        </motion.div>
-      )}
-    </div>
-  );
-};
-
-// --- COMPONENT: CONTROL PANEL (FLOATING) ---
-const ControlPanel = ({ debugMode, setDebugMode, turboMode, setTurboMode }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            className="glass-card p-4 rounded-xl border border-white/20 mb-2 min-w-[200px]"
-          >
-            <h4 className="text-xs font-bold text-gray-400 mb-3 uppercase tracking-wider">System Overrides</h4>
-            
-            {/* Toggle 1: X-RAY */}
-            <div className="flex justify-between items-center mb-3">
-              <div className="flex items-center gap-2 text-sm">
-                <Eye size={14} className="text-cyan-400" /> X-Ray Vision
-              </div>
-              <button 
-                onClick={() => setDebugMode(!debugMode)}
-                className={`w-10 h-5 rounded-full relative transition-colors ${debugMode ? 'bg-cyan-500' : 'bg-gray-700'}`}
-              >
-                <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${debugMode ? 'left-6' : 'left-1'}`} />
-              </button>
-            </div>
-
-            {/* Toggle 2: TURBO */}
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-2 text-sm">
-                <Gauge size={14} className="text-red-400" /> Turbo Boost
-              </div>
-              <button 
-                onClick={() => setTurboMode(!turboMode)}
-                className={`w-10 h-5 rounded-full relative transition-colors ${turboMode ? 'bg-red-500' : 'bg-gray-700'}`}
-              >
-                <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${turboMode ? 'left-6' : 'left-1'}`} />
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      
-      <button 
-        onClick={() => setIsOpen(!isOpen)}
-        className={`p-3 rounded-full shadow-lg transition-all hover:scale-110 active:scale-95 ${isOpen ? 'bg-white text-black' : 'glass-card text-white'}`}
-      >
-        <Settings size={24} className={isOpen ? "animate-spin-slow" : ""} />
-      </button>
-    </div>
-  );
-};
-
-// --- COMPONENT: TERMINAL ---
-const Terminal = () => {
-  const [history, setHistory] = useState([
-    { type: 'system', content: 'Connecting to Kautsar_Mainframe...' },
-    { type: 'system', content: 'Type "help" to see commands.' },
-  ]);
-  const [input, setInput] = useState('');
-  const bottomRef = useRef(null);
-
-  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [history]);
-
-  const handleCommand = (e) => {
-    if (e.key === 'Enter') {
-      const cmd = input.trim().toLowerCase();
-      let res = '';
-      if (cmd === 'help') res = 'try: about, clear, date, sudo reboot';
-      else if (cmd === 'about') res = 'Prof. Kautsar: The Architect.';
-      else if (cmd === 'date') res = new Date().toString();
-      else if (cmd === 'sudo reboot') res = 'Nice try. Permission denied.';
-      else if (cmd === 'clear') { setHistory([]); setInput(''); return; }
-      else res = `Command not found: ${cmd}`;
-      
-      setHistory([...history, { type: 'user', content: `> ${input}` }, { type: 'system', content: res }]);
-      setInput('');
-    }
-  };
-
-  return (
-    <div className="glass-card mt-8 rounded-lg overflow-hidden font-mono text-sm border border-gray-700/50 w-full">
-      <div className="bg-gray-900/80 px-4 py-2 flex gap-2 border-b border-gray-700">
-        <div className="w-3 h-3 rounded-full bg-red-500" />
-        <div className="w-3 h-3 rounded-full bg-yellow-500" />
-        <div className="w-3 h-3 rounded-full bg-green-500" />
+    <div className="glass-card rounded-xl border border-white/10 overflow-hidden text-sm font-mono shadow-2xl">
+      <div className="bg-white/5 px-4 py-3 flex gap-2 border-b border-white/10 items-center">
+        <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+        <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+        <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
+        <span className="ml-2 text-gray-400 text-xs">kautsar-profile.json</span>
       </div>
-      <div className="p-4 bg-black/40 h-48 overflow-y-auto">
-        {history.map((line, i) => (
-          <div key={i} className={`mb-1 ${line.type === 'user' ? 'text-green-400' : 'text-blue-300'}`}>{line.content}</div>
-        ))}
-        <div className="flex gap-2 text-green-400">
-          <span>$</span>
-          <input 
-            value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={handleCommand}
-            className="bg-transparent outline-none flex-1 text-white" autoFocus
-          />
-        </div>
-        <div ref={bottomRef} />
+      <div className="p-6 text-gray-300 bg-black/40 leading-relaxed overflow-x-auto">
+        <pre>
+          <span className="text-cyan-400">const</span> <span className="text-blue-300">developer</span> = {'{'} <br/>
+          {'  '}name: <span className="text-green-400">"{portfolioData.name}"</span>,<br/>
+          {'  '}role: <span className="text-green-400">"{portfolioData.role}"</span>,<br/>
+          {'  '}location: <span className="text-green-400">"Purwokerto, ID"</span>,<br/>
+          {'  '}skills: [<br/>
+          {'    '}<span className="text-green-400">"Python"</span>,<br/>
+          {'    '}<span className="text-green-400">"Go-lang"</span>,<br/>
+          {'    '}<span className="text-green-400">"JavaScript"</span>,<br/>
+          {'    '}<span className="text-green-400">"SQL"</span><br/>
+          {'  '}],<br/>
+          {'  '}status: <span className="text-green-400">"Available for Collaboration"</span><br/>
+          {'}'};
+        </pre>
       </div>
     </div>
   );
 };
-// --- COMPONENT: WHATSAPP UPLINK (CHAT) ---
-const SecureUplink = () => {
-  // Ganti pesan sesuai selera Prof.
-  const message = encodeURIComponent("Halo Prof. Kautsar, saya telah mengakses System V.3.0. Saya tertarik untuk berdiskusi lebih lanjut mengenai arsitektur sistem dan kolaborasi.");
+
+// --- COMPONENT: PROFESSIONAL WHATSAPP BUTTON ---
+const FloatingWhatsApp = () => {
+  const message = encodeURIComponent("Halo Kautsar, saya melihat portofolio Anda dan tertarik untuk berdiskusi lebih lanjut.");
   const whatsappLink = `https://wa.me/${portfolioData.phone}?text=${message}`;
 
   return (
@@ -238,166 +111,139 @@ const SecureUplink = () => {
       href={whatsappLink}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 left-6 z-50 group"
+      className="fixed bottom-8 right-8 z-50 group"
+      aria-label="Chat on WhatsApp"
     >
-      <div className="relative">
-        {/* Ping Animation Effect */}
-        <div className="absolute -inset-1 bg-green-500/30 rounded-full blur opacity-40 group-hover:opacity-100 transition-opacity duration-500 animate-pulse"></div>
-        
-        <div className="glass-card flex items-center gap-3 px-4 py-3 rounded-full border border-green-500/30 text-green-400 hover:bg-green-500/10 transition-all hover:scale-105 hover:pr-6">
-          <div className="relative">
-            <MessageSquare size={20} />
-            <span className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full animate-ping"></span>
-            <span className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full"></span>
-          </div>
-          
-          <div className="flex flex-col">
-            <span className="text-[10px] font-mono text-gray-400 leading-none uppercase tracking-wider">Secure Line</span>
-            <span className="text-sm font-bold leading-none group-hover:text-white transition-colors">ESTABLISH UPLINK</span>
-          </div>
-          
-          <Send size={14} className="opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
-        </div>
+      <div className="bg-green-600 hover:bg-green-500 text-white p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-green-500/25 flex items-center justify-center">
+        <MessageSquare size={24} />
       </div>
     </a>
   );
 };
+
 // --- APP UTAMA ---
 function App() {
-  const [debugMode, setDebugMode] = useState(false);
-  const [turboMode, setTurboMode] = useState(false);
-
   return (
-    <div className={`min-h-screen text-white font-sans selection:bg-cyan-500 selection:text-black pb-20 overflow-x-hidden ${debugMode ? 'debug-screens' : ''}`}>
+    <div className="min-h-screen text-gray-100 bg-slate-950 font-sans selection:bg-cyan-500/30 selection:text-cyan-200 pb-20 overflow-x-hidden">
       
-      {/* CSS untuk Debug Mode */}
-      {debugMode && (
-        <style>{`
-          * { outline: 1px solid rgba(0, 255, 255, 0.3) !important; }
-          .glass-card { background: rgba(0, 0, 0, 0.8) !important; }
-        `}</style>
-      )}
-
-      {/* Background Blobs (Kecepatan tergantung Turbo Mode) */}
-      <div className="blob-cont fixed inset-0 pointer-events-none">
-        <div className={`blob blob-1 rounded-full mix-blend-screen ${turboMode ? 'animate-fast' : ''}`}></div>
-        <div className={`blob blob-2 rounded-full mix-blend-screen ${turboMode ? 'animate-fast' : ''}`}></div>
-        <div className={`blob blob-3 rounded-full mix-blend-screen ${turboMode ? 'animate-fast' : ''}`}></div>
+      {/* Background Subtle Blobs */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div className="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-blue-600/10 rounded-full blur-[120px] mix-blend-screen"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] bg-cyan-600/10 rounded-full blur-[120px] mix-blend-screen"></div>
       </div>
-      {turboMode && <style>{`.blob { animation-duration: 2s !important; }`}</style>}
 
-      <div className="max-w-6xl mx-auto px-6 py-8 relative z-10">
+      <div className="max-w-5xl mx-auto px-6 py-12 relative z-10">
         
         {/* NAV BAR */}
-        <nav className="flex justify-between items-center mb-16 glass-card px-6 py-4 rounded-full sticky top-4 z-40 backdrop-blur-xl border border-white/10">
-            <span className="font-bold text-xl tracking-tighter">K.R.A<span className="text-cyan-400">.DEV</span></span>
-            <div className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                <span className="text-xs font-mono text-green-400">ONLINE</span>
+        <nav className="flex justify-between items-center mb-24 py-4 border-b border-white/5">
+            <span className="font-bold text-xl tracking-wide text-white">
+              Kaxurix<span className="text-cyan-500">.</span>
+            </span>
+            <div className="flex items-center gap-6 text-sm text-gray-400">
+                <a href="#about" className="hover:text-white transition-colors">About</a>
+                <a href="#projects" className="hover:text-white transition-colors">Projects</a>
+                <a href="#contact" className="hover:text-white transition-colors">Contact</a>
             </div>
         </nav>
 
-        {/* CONTROL PANEL (Mainan Baru) */}
-        <ControlPanel 
-          debugMode={debugMode} setDebugMode={setDebugMode}
-          turboMode={turboMode} setTurboMode={setTurboMode}
-        />
-        <SecureUplink /> 
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24"></div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
+        {/* HERO SECTION */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-32" id="about">
           
-          {/* HERO LEFT */}
-          <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }}>
-             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 text-xs font-mono mb-6">
-                <Activity size={14} /> SYSTEM V.3.0 READY
-             </div>
-             <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 leading-tight">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+             <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 text-white leading-tight">
                {portfolioData.name}
              </h1>
-             <p className="text-xl text-cyan-100/70 font-light leading-relaxed mb-8">
-               {portfolioData.role} <br/>
-               <span className="text-sm font-mono text-gray-400 mt-2 block">Building digital fortresses & scalable engines.</span>
+             <h2 className="text-xl md:text-2xl text-cyan-400 font-medium mb-6">
+               {portfolioData.role}
+             </h2>
+             <p className="text-gray-400 text-lg leading-relaxed mb-8">
+               {portfolioData.bio}
              </p>
              
              <div className="flex gap-4">
-               <button className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-6 py-3 rounded-lg transition-all active:scale-95">
-                 Explore Projects
-               </button>
-               <button className="border border-white/20 hover:bg-white/10 px-6 py-3 rounded-lg transition-all">
-                 View CV
-               </button>
+               <a href={`mailto:${portfolioData.email}`} className="bg-white hover:bg-gray-200 text-slate-900 font-semibold px-6 py-3 rounded-lg transition-colors flex items-center gap-2">
+                 <Mail size={18} /> Contact Me
+               </a>
+               <a href="https://drive.google.com/file/d/1dLXqYTMm-l_fJqWkHl2Pr0HXmpoJUmU5/view?usp=sharing" className="border border-white/20 hover:bg-white/5 text-white font-medium px-6 py-3 rounded-lg transition-colors">
+                 View Portfolio
+               </a>
              </div>
           </motion.div>
 
-          {/* HERO RIGHT (Interactive Terminal) */}
-          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
-            <Terminal />
+          {/* HERO RIGHT (Static Code Profile) */}
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.2 }}>
+            <CodeProfileWindow />
           </motion.div>
         </div>
 
-        {/* SECTION: EDUCATION LOGS (FIXED) */}
+        {/* SECTION: SKILLS */}
         <motion.section 
           initial={{ opacity: 0 }} 
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          whileInView={{ opacity: 1 }} 
+          viewport={{ once: true }} 
           className="mb-32"
         >
-          <div className="flex items-center gap-4 mb-10">
-            <div className="p-3 bg-purple-500/20 rounded-xl text-purple-400">
-              <GraduationCap size={24} />
-            </div>
-            <h2 className="text-3xl font-bold">Kernel Version History</h2>
-          </div>
-
-          <div className="relative border-l-2 border-white/10 ml-6 space-y-12">
-            {portfolioData.education.map((edu, idx) => (
-              <div key={idx} className="relative pl-8 group">
-                {/* Dot Connector */}
-                <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-gray-900 border-2 border-purple-500 group-hover:bg-purple-500 transition-colors"></div>
-                
-                <div className="glass-card p-6 rounded-2xl hover:bg-white/5 transition-all cursor-default">
-                  <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-2 mb-2">
-                    <h3 className="text-xl font-bold text-white">{edu.school}</h3>
-                    <span className="text-xs font-mono text-purple-300 bg-purple-500/10 px-2 py-1 rounded border border-purple-500/20">
-                      {edu.status}
-                    </span>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div>
+              <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+                <Cpu className="text-cyan-500" /> Core Competencies
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {portfolioData.skills.map((skill, idx) => (
+                  <div key={idx} className="flex items-center gap-4 bg-white/5 border border-white/5 p-4 rounded-xl hover:bg-white/10 transition-colors">
+                    <div className="text-cyan-400">{skill.icon}</div>
+                    <div className="flex-1">
+                      <h4 className="font-semibold text-gray-200">{skill.name}</h4>
+                    </div>
                   </div>
-                  <p className="text-purple-400 font-medium mb-2">{edu.degree} <span className="text-gray-500 text-sm">/ {edu.year}</span></p>
-                  
-                  {/* BAGIAN YANG DIPERBAIKI ADA DI SINI */}
-                  <p className="text-gray-400 text-sm leading-relaxed flex gap-2">
-                    <span className="text-purple-500 font-bold">&gt;</span> 
-                    {edu.desc}
-                  </p>
-
-                </div>
+                ))}
               </div>
-            ))}
+            </div>
+
+            <div>
+              <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+                <GraduationCap className="text-cyan-500" /> Education Background
+              </h3>
+              <div className="space-y-8">
+                {portfolioData.education.map((edu, idx) => (
+                  <div key={idx} className="relative pl-6 border-l border-white/10">
+                    <div className="absolute w-3 h-3 bg-cyan-500 rounded-full -left-[6.5px] top-1.5 ring-4 ring-slate-950"></div>
+                    <h4 className="text-lg font-bold text-white">{edu.school}</h4>
+                    <p className="text-cyan-400 font-medium mb-2">{edu.degree} <span className="text-gray-500 text-sm font-normal">• {edu.year}</span></p>
+                    <p className="text-gray-400 text-sm leading-relaxed">{edu.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </motion.section>
 
-        {/* PROJECTS GRID */}
-        <section className="mb-32">
-          <h2 className="text-3xl font-bold mb-10 flex items-center gap-3">
-            <Server className="text-cyan-400" /> Deployed Modules
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* PROJECTS SECTION */}
+        <section className="mb-32" id="projects">
+          <div className="mb-12">
+            <h2 className="text-3xl font-bold text-white mb-4">Selected Projects</h2>
+            <p className="text-gray-400">Sebuah tinjauan atas beberapa sistem dan aplikasi yang pernah saya kembangkan.</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {portfolioData.projects.map((project, idx) => (
               <motion.div
                 key={idx}
-                whileHover={{ y: -10 }}
-                className="glass-card p-8 rounded-3xl border border-white/5 hover:border-cyan-500/50 transition-all group"
+                whileHover={{ y: -5 }}
+                className="bg-white/[0.02] p-8 rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all group flex flex-col h-full"
               >
-                <div className="flex justify-between items-start mb-6">
-                  <span className="text-xs font-mono text-cyan-400 border border-cyan-500/30 px-2 py-1 rounded bg-cyan-900/20">{project.tag}</span>
-                  <ExternalLink className="w-5 h-5 text-gray-500 group-hover:text-white" />
+                <div className="mb-6">
+                  <span className="text-xs font-mono text-cyan-400 border border-cyan-500/20 px-3 py-1.5 rounded-full bg-cyan-500/5">
+                    {project.tag}
+                  </span>
                 </div>
-                <h3 className="text-2xl font-bold mb-3">{project.title}</h3>
-                <p className="text-gray-400 text-sm mb-6">{project.desc}</p>
-                <div className="flex gap-2 flex-wrap">
+                <h3 className="text-xl font-bold mb-3 text-white group-hover:text-cyan-400 transition-colors">{project.title}</h3>
+                <p className="text-gray-400 text-sm mb-8 flex-grow leading-relaxed">{project.desc}</p>
+                <div className="flex gap-2 flex-wrap mt-auto">
                   {project.tech.map((t, i) => (
-                     <span key={i} className="text-xs text-gray-300 bg-white/5 px-2 py-1 rounded border border-white/5">{t}</span>
+                     <span key={i} className="text-xs text-gray-300 bg-white/5 px-2.5 py-1 rounded-md border border-white/5">
+                       {t}
+                     </span>
                   ))}
                 </div>
               </motion.div>
@@ -405,16 +251,26 @@ function App() {
           </div>
         </section>
 
-        {/* CONTACT DECRYPTOR (Mainan Baru) */}
-        <section className="pb-20">
-          <DecryptorContact />
+        {/* FOOTER & CONTACT */}
+        <footer className="pt-16 pb-8 border-t border-white/5 text-center" id="contact">
+          <h2 className="text-2xl font-bold text-white mb-6">Mari Terhubung</h2>
+          <p className="text-gray-400 mb-8 max-w-md mx-auto">
+            Saya selalu terbuka untuk mendiskusikan peluang kerja, proyek kolaborasi, atau sekadar berbagi wawasan tentang teknologi.
+          </p>
           
-          <div className="flex justify-center gap-8 mt-12">
-             <Github className="text-gray-500 hover:text-white cursor-pointer hover:scale-110 transition" />
-             <Linkedin className="text-gray-500 hover:text-white cursor-pointer hover:scale-110 transition" />
-             <Instagram className="text-gray-500 hover:text-white cursor-pointer hover:scale-110 transition" />
+          <div className="flex justify-center gap-6 mb-16">
+             <a href="#" className="text-gray-500 hover:text-white transition-colors p-2"><Github size={24} /></a>
+             <a href="#" className="text-gray-500 hover:text-white transition-colors p-2"><Linkedin size={24} /></a>
+             <a href="#" className="text-gray-500 hover:text-white transition-colors p-2"><Instagram size={24} /></a>
           </div>
-        </section>
+          
+          <p className="text-sm text-gray-600 font-mono">
+             © {new Date().getFullYear()} Kautsar Rifqi Aditya. All rights reserved.
+          </p>
+        </footer>
+
+        {/* FLOATING WHATSAPP BUTTON */}
+        <FloatingWhatsApp />
 
       </div>
     </div>
