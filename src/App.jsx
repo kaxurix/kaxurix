@@ -4,14 +4,15 @@ import {
   Github, Linkedin, Mail, Instagram, 
   Server, Database, Code, 
   Cpu, Shield, Zap, GraduationCap, 
-  MessageSquare, ChevronRight, CheckCircle2, LayoutTemplate
+  MessageSquare, ChevronRight, CheckCircle2, LayoutTemplate,
+  PenTool, Terminal
 } from 'lucide-react';
 
 // --- DATA PRIBADI ---
 const portfolioData = {
   name: "Kautsar Rifqi Aditya",
-  role: "Full-Stack Systems Architect",
-  bio: "Mengorkestrasi data dalam skala masif. Membangun sistem yang tak hanya berjalan, tapi efisien dan skalabel. Saya berfokus pada arsitektur backend, keamanan sistem, dan performa tinggi.",
+  role: "Full-Stack Web Developer",
+  bio: "A passionate Full-Stack Web Developer with a solid foundation from vocational school, currently pursuing a degree in Informatics. I enjoy building efficient, functional, and user-friendly web applications, from frontend interfaces to backend logic.",
   email: "kautsarrifqi1@gmail.com", 
   phone: "6282133454277",
   
@@ -20,13 +21,13 @@ const portfolioData = {
       school: "Universitas Jenderal Soedirman",
       degree: "S1 Informatika",
       year: "2025 - Present",
-      desc: "Fokus pada algoritma tingkat lanjut, struktur data, dan pengembangan perangkat lunak berbasis tim.",
+      desc: "Currently learning core computer science concepts, data structures, algorithms, and collaborative software engineering.",
     },
     {
       school: "SMK Telkom Purwokerto",
       degree: "Rekayasa Perangkat Lunak",
       year: "2021 - 2024",
-      desc: "Membangun fondasi kuat dalam pemrograman dasar, pembuatan website, dan manajemen basis data.",
+      desc: "Built a strong practical foundation in basic programming, web development, and database management.",
     }
   ],
   
@@ -35,6 +36,8 @@ const portfolioData = {
     { name: "Go-lang", icon: <Zap size={20} /> },
     { name: "JavaScript", icon: <LayoutTemplate size={20} /> },
     { name: "SQL & Database", icon: <Database size={20} /> },
+    { name: "C#", icon: <Terminal size={20} /> },
+    { name: "UI/UX Design", icon: <PenTool size={20} /> },
   ],
   
   projects: [
@@ -42,31 +45,19 @@ const portfolioData = {
       title: "E-Voting OSIS SMK Telkom",
       tag: "Web Application",
       desc: "Sistem pemilihan ketua OSIS digital yang dirancang untuk memastikan transparansi, keamanan data pemilih, dan perhitungan suara real-time.",
-      tech: ["JavaScript", "SQL", "Web Tech"],
+      tech: ["PHP", "SQL", "Laravel"],
     },
     {
-      title: "Women's Course LMS",
-      tag: "E-Learning",
-      desc: "Sistem Manajemen Pembelajaran (LMS) khusus berupa website kursus untuk wanita, dilengkapi fitur manajemen materi dan progres belajar.",
-      tech: ["Python", "SQL", "JavaScript"],
-    },
-    {
-      title: "Idealibs Asset Platform",
+      title: "Idealibs",
       tag: "Digital Asset",
       desc: "Platform penyedia aset digital interaktif bergaya mirip Freepik, dirancang untuk mempermudah pencarian dan pengunduhan referensi visual.",
-      tech: ["Golang", "JavaScript", "SQL"],
+      tech: ["NextJs", "NodeJs", "SQL"],
     },
     {
-      title: "Project Tracker Tool",
-      tag: "Management System",
-      desc: "Website pemantau pekerjaan dan progres proyek yang dikembangkan khusus untuk kebutuhan kompetisi/perlombaan.",
-      tech: ["Python", "JavaScript", "SQL"],
-    },
-    {
-      title: "Sistem Profil Kelurahan",
+      title: "Imhomekontraktor",
       tag: "Company Profile",
-      desc: "Portal informasi interaktif untuk kelurahan guna memudahkan penyampaian data dan informasi publik kepada warga setempat.",
-      tech: ["JavaScript", "HTML/CSS", "SQL"],
+      desc: "Website profil perusahaan sebagai wadah promosi untuk meningkatkan daya tarik konsumen untuk menggunakan jasa kontraktor.",
+      tech: ["Wordpress"],
     }
   ]
 };
@@ -79,7 +70,7 @@ const CodeProfileWindow = () => {
         <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
         <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
         <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
-        <span className="ml-2 text-gray-400 text-xs">kautsar-profile.json</span>
+        <span className="ml-2 text-gray-400 text-xs">kaxurix-profile.json</span>
       </div>
       <div className="p-6 text-gray-300 bg-black/40 leading-relaxed overflow-x-auto">
         <pre>
@@ -91,9 +82,11 @@ const CodeProfileWindow = () => {
           {'    '}<span className="text-green-400">"Python"</span>,<br/>
           {'    '}<span className="text-green-400">"Go-lang"</span>,<br/>
           {'    '}<span className="text-green-400">"JavaScript"</span>,<br/>
-          {'    '}<span className="text-green-400">"SQL"</span><br/>
+          {'    '}<span className="text-green-400">"SQL"</span>,<br/>
+          {'    '}<span className="text-green-400">"C#"</span>,<br/>
+          {'    '}<span className="text-green-400">"UI/UX Design"</span><br/>
           {'  '}],<br/>
-          {'  '}status: <span className="text-green-400">"Available for Collaboration"</span><br/>
+          {'  '}status: <span className="text-green-400">"Open to Work & Collaborate"</span><br/>
           {'}'};
         </pre>
       </div>
@@ -164,8 +157,8 @@ function App() {
                <a href={`mailto:${portfolioData.email}`} className="bg-white hover:bg-gray-200 text-slate-900 font-semibold px-6 py-3 rounded-lg transition-colors flex items-center gap-2">
                  <Mail size={18} /> Contact Me
                </a>
-               <a href="https://drive.google.com/file/d/1dLXqYTMm-l_fJqWkHl2Pr0HXmpoJUmU5/view?usp=sharing" className="border border-white/20 hover:bg-white/5 text-white font-medium px-6 py-3 rounded-lg transition-colors">
-                 View Portfolio
+               <a href="https://drive.google.com/file/d/1dLXqYTMm-l_fJqWkHl2Pr0HXmpoJUmU5/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="border border-white/20 hover:bg-white/5 text-white font-medium px-6 py-3 rounded-lg transition-colors">
+                 View CV
                </a>
              </div>
           </motion.div>
@@ -222,7 +215,7 @@ function App() {
         <section className="mb-32" id="projects">
           <div className="mb-12">
             <h2 className="text-3xl font-bold text-white mb-4">Selected Projects</h2>
-            <p className="text-gray-400">Sebuah tinjauan atas beberapa sistem dan aplikasi yang pernah saya kembangkan.</p>
+            <p className="text-gray-400">An overview of several web applications and systems I have developed.</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
