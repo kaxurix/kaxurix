@@ -40,6 +40,17 @@ const portfolioData = {
     { name: "UI/UX Design", icon: <PenTool size={20} /> },
   ],
   
+  contributions: [
+    {
+      title: "Introduction to Interactive Components",
+      organization: "Catalyst - UNSOED",
+      desc: "A comprehensive presentation about interactive components, exploring design patterns, user interaction best practices, and modern approaches to building engaging interfaces.",
+      link: "https://presentasi-weekly-meet.vercel.app/",
+      type: "Presentation",
+      image: "/presentation-preview.png"
+    }
+  ],
+
   projects: [
     {
       title: "E-Voting OSIS SMK Telkom",
@@ -134,6 +145,7 @@ function App() {
             </span>
             <div className="flex items-center gap-6 text-sm text-gray-400">
                 <a href="#about" className="hover:text-white transition-colors">About</a>
+                <a href="#education" className="hover:text-white transition-colors">Education</a>
                 <a href="#projects" className="hover:text-white transition-colors">Projects</a>
                 <a href="#contact" className="hover:text-white transition-colors">Contact</a>
             </div>
@@ -210,6 +222,61 @@ function App() {
             </div>
           </div>
         </motion.section>
+
+        {/* EDUCATION & CONTRIBUTIONS SECTION */}
+        <section className="mb-32" id="education">
+          <div className="mb-12">
+            <h2 className="text-3xl font-bold text-white mb-4">Education & Contributions</h2>
+            <p className="text-gray-400">Sharing knowledge and insights through presentations and contributions to the tech community at Catalyst UNSOED.</p>
+          </div>
+          
+          <div className="space-y-6">
+            {portfolioData.contributions.map((item, idx) => (
+              <motion.a
+                key={idx}
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ y: -5 }}
+                className="block overflow-hidden rounded-2xl border border-cyan-500/20 hover:border-cyan-500/50 transition-all group"
+              >
+                <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 relative">
+                  {/* Preview Image */}
+                  <div className="relative h-48 overflow-hidden bg-black/40">
+                    <img 
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                  </div>
+                  
+                  {/* Content */}
+                  <div className="p-8 relative z-10">
+                    <div className="flex items-center gap-3 mb-3">
+                      <span className="text-xs font-mono text-cyan-400 border border-cyan-500/30 px-3 py-1.5 rounded-full bg-cyan-500/10">
+                        {item.type}
+                      </span>
+                      <span className="text-sm text-gray-500 font-medium">{item.organization}</span>
+                    </div>
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1">
+                        <h3 className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors mb-3">{item.title}</h3>
+                        <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
+                      </div>
+                      <div className="text-cyan-400 group-hover:translate-x-1 transition-transform flex-shrink-0">
+                        <ChevronRight size={24} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.a>
+            ))}
+          </div>
+        </section>
 
         {/* PROJECTS SECTION */}
         <section className="mb-32" id="projects">
