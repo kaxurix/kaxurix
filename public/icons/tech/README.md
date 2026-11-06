@@ -1,0 +1,1 @@
+Locally hosted, unmodified SVG marks from [Devicon](https://github.com/devicons/devicon), downloaded 6 November 2026. See `LICENSE-devicon.txt` (MIT). The marks identify tools used in the existing projects and remain trademarks of their respective owners.

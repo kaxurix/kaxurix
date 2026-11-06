@@ -1,0 +1,71 @@
+/* A drafting-paper surface. Decoration stays behind content and ignores input. */
+.ambient-background {
+  --grid-size: 52px;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background-image:
+    linear-gradient(#7c896714 1px, transparent 1px),
+    linear-gradient(90deg, #7c896714 1px, transparent 1px),
+    radial-gradient(ellipse at 90% 8%, #c8d5ae60, transparent 58%),
+    radial-gradient(ellipse at 5% 88%, #e7c9a344, transparent 60%);
+  background-size: var(--grid-size) var(--grid-size), var(--grid-size) var(--grid-size), 100% 100%, 100% 100%;
+}
+.ambient-background::before,
+.ambient-background::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  mask-image: radial-gradient(280px circle at var(--pointer-x, 65vw) var(--pointer-y, 35vh), #000, transparent);
+  transition: opacity 500ms ease;
+}
+.ambient-background::before {
+  background-image:
+    linear-gradient(#a9cc79b3 2px, transparent 2px),
+    linear-gradient(90deg, #a9cc79b3 2px, transparent 2px),
+    radial-gradient(200px circle at var(--pointer-x, 65vw) var(--pointer-y, 35vh), #c6df963d, transparent);
+  background-size: var(--grid-size) var(--grid-size), var(--grid-size) var(--grid-size), 100% 100%;
+  filter: blur(3px);
+}
+.ambient-background::after {
+  background-image:
+    linear-gradient(#88a75e80 1px, transparent 1px),
+    linear-gradient(90deg, #88a75e80 1px, transparent 1px);
+  background-size: var(--grid-size) var(--grid-size);
+}
+.ambient-background[data-interactive="true"][data-hover="true"]::before,
+.ambient-background[data-interactive="true"][data-hover="true"]::after {
+  opacity: 1;
+}
+#main, .site-footer {
+  position: relative;
+  z-index: 1;
+}
+.hero {
+  isolation: isolate;
+  overflow: clip;
+}
+.lab-section {
+  background-image:
+    linear-gradient(#d5dfb808 1px, transparent 1px),
+    linear-gradient(90deg, #d5dfb808 1px, transparent 1px),
+    radial-gradient(ellipse at 95% 0, #65734c38, transparent 65%);
+  background-size: 52px 52px, 52px 52px, 100% 100%;
+}
+.site-footer {
+  background-image: radial-gradient(circle at 94% 20%, transparent 0 160px, #89976a1f 161px 162px, transparent 163px 225px, #89976a15 226px 227px, transparent 228px);
+}
+@media (max-width: 760px) {
+  .ambient-background { --grid-size: 48px; opacity: 0.85; }
+  .site-footer { background-position: 60px 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ambient-background::before,
+  .ambient-background::after { display: none; }
+}
+@media print {
+  .ambient-background { display: none; }
+}

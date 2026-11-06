@@ -1,0 +1,51 @@
+.section-navigation { display: none; }
+@media (min-width: 761px) {
+  .section-navigation {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px;
+    color: var(--ink);
+    background: rgb(248 248 243 / 95%);
+    border: 1px solid #cdd3c1;
+    border-radius: 12px;
+    box-shadow: 0 8px 28px #24272014, inset 0 1px 0 #fff;
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+  }
+  .section-navigation-status {
+    display: grid;
+    gap: 4px;
+    min-width: 84px;
+    padding-inline: 10px 16px;
+    font-size: 13px;
+    line-height: 1.2;
+  }
+  .section-navigation-status .mono { font-size: 9px; color: var(--muted); }
+  .section-navigation button {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    background: transparent;
+    cursor: pointer;
+    transition: background 200ms ease, border-color 200ms ease;
+  }
+  .section-navigation button:is(:hover, :focus-visible):not(:disabled) {
+    background: #e4ead9;
+    border-color: #c5d0b3;
+  }
+  .section-navigation button:disabled { opacity: 0.3; cursor: default; }
+  body:has(dialog[open]) .section-navigation { visibility: hidden; }
+  .site-footer { padding-bottom: 108px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .section-navigation button { transition: none; }
+}
+@media print { .section-navigation { display: none; } }

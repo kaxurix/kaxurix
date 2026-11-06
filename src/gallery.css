@@ -1,0 +1,322 @@
+.portrait-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 17px;
+  padding: 24px;
+  text-align: center;
+  color: #62645b;
+}
+.portrait-placeholder > span {
+  font-family: var(--display);
+  font-size: 25px;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+}
+.portrait-placeholder > .mono {
+  font-size: 10px;
+}
+.human-section {
+  padding-top: 40px;
+  padding-bottom: 76px;
+}
+
+/* Life film foundation; composition and rolling treatments live in film.css. */
+.photo-gallery {
+  --photo-width: clamp(280px, 34vw, 440px);
+}
+.photo-rail {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: 14px;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #b7b6aa transparent;
+  padding-bottom: 9px;
+}
+.photo-rail:focus-visible {
+  outline-offset: -2px;
+}
+.photo-rail-track {
+  position: relative;
+  display: flex;
+  gap: 32px;
+  width: max-content;
+  min-width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 53px 14px 16px;
+}
+.photo-rail-item {
+  --tilt: -1.4deg;
+  width: var(--photo-width);
+  flex: 0 0 var(--photo-width);
+  min-width: 0;
+  scroll-snap-align: start;
+}
+.photo-rail-item:nth-child(2n) {
+  --tilt: 1.6deg;
+}
+.photo-rail-item:nth-child(3n) {
+  --tilt: -0.7deg;
+}
+.gallery-entry {
+  min-width: 0;
+}
+.gallery-meta {
+  font-size: 10px;
+  line-height: 1.7;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 23px;
+}
+.gallery-entry h3 {
+  font-size: 27px;
+  line-height: 1.2;
+  margin: 8px 0;
+}
+.gallery-entry h3 > a {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 44px;
+  overflow-wrap: anywhere;
+}
+.gallery-entry h3 svg {
+  margin-top: 5px;
+  transition: transform 0.18s ease;
+}
+.gallery-entry h3 a:is(:hover, :focus-visible) svg {
+  transform: translate(2px, -2px);
+}
+.photo-rail-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 14px 14px 0;
+}
+.gallery-hint {
+  font-size: 10px;
+  color: var(--muted);
+}
+.gallery-controls {
+  display: flex;
+  gap: 8px;
+}
+.gallery-controls button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  background: transparent;
+  cursor: pointer;
+}
+.gallery-controls button:is(:hover, :focus-visible):not(:disabled) {
+  background: var(--ink);
+  color: var(--canvas);
+  border-color: var(--ink);
+}
+.gallery-controls button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.no-js .gallery-controls {
+  display: none;
+}
+
+/* Lab uses graphic screenshot slots rather than invented product screens. */
+.lab-heading-row {
+  margin-bottom: 8px;
+}
+.lab-heading-row .lab-title {
+  font-size: clamp(48px, 5vw, 74px);
+}
+.experiment-cover {
+  position: relative;
+  aspect-ratio: 1.48;
+  overflow: hidden;
+  background: #dbd5f4;
+  color: var(--ink);
+}
+.experiment-cover--fuel {
+  background: #dce9bb;
+}
+.experiment-cover--next {
+  background: #e5e2d8;
+}
+.experiment-cover > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.experiment-art {
+  position: absolute;
+  width: 87%;
+  height: 86%;
+  left: 6.5%;
+  top: 7%;
+}
+.experiment-visual-label {
+  position: absolute;
+  z-index: 1;
+  top: 16px;
+  left: 17px;
+  font-size: 9px;
+}
+.experiment-visual-caption {
+  position: absolute;
+  bottom: 15px;
+  left: 17px;
+  right: 12px;
+  font-size: 8px;
+  line-height: 1.5;
+}
+.experiment-cover.detail-cover {
+  aspect-ratio: 2.2;
+}
+.experiment-cover.detail-cover .experiment-art {
+  left: 25%;
+  width: 50%;
+}
+.experiment-cover.detail-cover .experiment-visual-label,
+.experiment-cover.detail-cover .experiment-visual-caption {
+  font-size: 11px;
+  left: 25px;
+}
+
+/* Certificate artwork shared by gallery and detail pages. */
+.journal-image--certificate {
+  background: #e3dff0;
+  color: #4e4565;
+}
+.certificate-art {
+  position: absolute;
+  inset: 15% 5%;
+  width: 90%;
+  height: 70%;
+}
+
+@media (max-width: 1100px) {
+  .photo-gallery {
+    --photo-width: clamp(280px, 42vw, 400px);
+  }
+}
+@media (max-width: 760px) {
+  .hero-grid {
+    padding-bottom: 30px;
+  }
+  .portrait-placeholder {
+    gap: 14px;
+    padding: 18px;
+  }
+  .portrait-placeholder > span {
+    font-size: 23px;
+  }
+  .portrait-placeholder > .mono {
+    font-size: 10px;
+    max-width: 160px;
+  }
+  .human-section {
+    padding-top: 34px;
+    padding-bottom: 54px;
+  }
+  .human-copy > p {
+    margin-bottom: 12px;
+  }
+  .photo-gallery {
+    --photo-width: min(72vw, 350px);
+  }
+  .photo-rail-track {
+    gap: 26px;
+    padding-top: 45px;
+    padding-inline: 11px;
+  }
+  .gallery-meta {
+    font-size: 10px;
+    margin-top: 19px;
+  }
+  .gallery-entry h3 {
+    font-size: 25px;
+    margin-top: 7px;
+  }
+  .gallery-entry h3 > a {
+    gap: 12px;
+  }
+  .gallery-entry h3 svg {
+    width: 19px;
+    height: 19px;
+  }
+  .photo-rail-toolbar {
+    padding-inline: 11px;
+    padding-top: 10px;
+    gap: 12px;
+  }
+  .gallery-hint {
+    font-size: 10px;
+    max-width: 170px;
+  }
+  .experiment-cover {
+    aspect-ratio: 1.35;
+  }
+  .experiment-visual-label {
+    font-size: 9px;
+    top: 13px;
+    left: 13px;
+  }
+  .experiment-visual-caption {
+    font-size: 7px;
+    left: 13px;
+    bottom: 12px;
+    max-width: 210px;
+  }
+  .experiment-cover.detail-cover {
+    aspect-ratio: 1.2;
+  }
+  .experiment-cover.detail-cover .experiment-art {
+    left: 6.5%;
+    width: 87%;
+  }
+  .experiment-cover.detail-cover .experiment-visual-label,
+  .experiment-cover.detail-cover .experiment-visual-caption {
+    font-size: 9px;
+    left: 15px;
+  }
+  .about-portrait .portrait {
+    aspect-ratio: 4/4.5;
+  }
+}
+@media (max-width: 370px) {
+  .hero-portrait {
+    width: 86%;
+    margin-top: 0;
+  }
+  .hero-portrait > figcaption {
+    font-size: 11px;
+    gap: 4px 10px;
+  }
+  .hero-portrait > figcaption .mono {
+    font-size: 9px;
+  }
+  .photo-gallery {
+    --photo-width: 70vw;
+  }
+  .gallery-entry h3 {
+    font-size: 23px;
+  }
+  .gallery-hint {
+    max-width: 135px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .photo-rail {
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,438 @@
+/* Work and Lab share a single scrolling row; each keeps its own frame treatment. */
+.showcase-visual .project-cover.project-cover--screenshot,
+.detail-cover.project-cover--screenshot {
+  aspect-ratio: 16 / 9;
+  padding: 0;
+  background: #e8e6de;
+}
+.project-cover--screenshot > img {
+  object-fit: contain;
+}
+.photo-gallery--work .photo-rail,
+.photo-gallery--lab .photo-rail {
+  scroll-snap-type: none;
+  cursor: grab;
+}
+.photo-rail.is-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+.photo-rail.is-dragging a {
+  cursor: grabbing;
+}
+.photo-gallery--work .photo-rail-track {
+  padding: 12px 2px 16px;
+}
+.showcase-project {
+  min-width: 0;
+}
+.showcase-visual {
+  display: block;
+  border: 1px solid #bcbab0;
+  border-radius: 7px 7px 0 0;
+  overflow: hidden;
+  background: #e8e6de;
+}
+.browser-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 38px;
+  padding: 10px 14px;
+  border-bottom: 1px solid #bcbab0;
+  color: #55554f;
+}
+.browser-bar > .mono {
+  font-size: 10px;
+}
+.browser-dots {
+  display: flex;
+  gap: 5px;
+}
+.browser-dots i {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #aaa89e;
+}
+.browser-index {
+  margin-left: auto;
+}
+.showcase-visual .project-cover {
+  aspect-ratio: 1.5;
+  padding: 22px;
+}
+.showcase-visual .project-cover > img {
+  object-fit: contain;
+}
+.showcase-visual .cover-type {
+  font-size: clamp(34px, 3.3vw, 48px);
+  line-height: 1.03;
+  letter-spacing: -0.05em;
+  padding-block: 24px 50px;
+}
+.showcase-visual .ballot-mark {
+  width: 54px;
+  height: 54px;
+  right: 25px;
+  bottom: 42px;
+}
+.showcase-visual .ballot-mark svg {
+  width: 67px;
+  height: 67px;
+  transform: translate(1px, -13px);
+}
+.showcase-copy {
+  padding-top: 22px;
+}
+.showcase-kicker {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.7;
+  text-transform: uppercase;
+}
+.showcase-copy h3 {
+  font-size: 30px;
+  line-height: 1.15;
+  margin: 8px 0 12px;
+  overflow-wrap: anywhere;
+}
+.showcase-copy h3 a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.showcase-copy h3 a:is(:hover, :focus-visible) {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+}
+.showcase-description {
+  font-size: 15px;
+  max-width: 45ch;
+  color: #484941;
+}
+.showcase-meta {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+  margin-block: 18px;
+}
+.showcase-copy > .text-link {
+  font-size: 14px;
+}
+
+/* Lab retains dark surroundings and pinned research paper, now along one row. */
+.lab-section {
+  padding-bottom: 52px;
+}
+.photo-gallery--lab .photo-rail-track {
+  padding: 28px 10px 18px;
+}
+.research-paper {
+  position: relative;
+  min-width: 0;
+  background: #f1efdf;
+  color: var(--ink);
+}
+.research-paper::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--coral);
+  box-shadow: 1px 2px 3px #0004;
+  z-index: 2;
+}
+.research-visual {
+  display: block;
+  margin-inline: 14px;
+}
+.research-visual .experiment-cover {
+  aspect-ratio: 1.5;
+  border: 1px solid #18181830;
+}
+.work-detail-placeholder.experiment-cover {
+  aspect-ratio: 16 / 9;
+}
+.work-detail-placeholder .experiment-visual-label,
+.work-detail-placeholder .experiment-visual-caption {
+  font-size: 11px;
+}
+@media (max-width: 760px) {
+  .work-detail-placeholder .experiment-visual-caption {
+    font-size: 9px;
+    max-width: none;
+    bottom: 12px;
+  }
+}
+.research-visual .experiment-visual-label {
+  font-size: 9px;
+}
+.research-visual .experiment-visual-caption {
+  font-size: 8px;
+}
+.research-copy {
+  padding: 20px;
+}
+.research-index {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 18px 15px;
+  font-size: 10px;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+.research-category {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #57594f;
+}
+.research-copy h3 {
+  font-size: 30px;
+  line-height: 1.15;
+  margin: 7px 0 12px;
+}
+.research-copy h3 > a {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 44px;
+  overflow-wrap: anywhere;
+}
+.research-copy h3 svg {
+  margin-top: 6px;
+}
+.research-description {
+  font-size: 15px;
+}
+.research-footer {
+  border-top: 1px solid #18181832;
+  padding-top: 12px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 10px;
+}
+.research-footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+}
+.research-footer a:is(:hover, :focus-visible) {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.research-paper :focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+.photo-gallery--lab .gallery-hint {
+  color: #bec3af;
+}
+.photo-gallery--lab .gallery-controls button {
+  color: var(--canvas);
+  border-color: #626a53;
+}
+.photo-gallery--lab
+  .gallery-controls
+  button:is(:hover, :focus-visible):not(:disabled) {
+  color: var(--ink);
+  background: var(--acid);
+  border-color: var(--acid);
+}
+@media (max-width: 760px) {
+  .showcase-visual .project-cover {
+    padding: 18px;
+  }
+  .showcase-visual .cover-type {
+    font-size: clamp(30px, 8vw, 40px);
+  }
+  .showcase-copy h3 {
+    font-size: 26px;
+  }
+  .research-copy h3 {
+    font-size: 26px;
+  }
+  .research-index {
+    padding-inline: 14px;
+    font-size: 9px;
+  }
+  .showcase-visual .ballot-mark {
+    width: 40px;
+    height: 40px;
+    bottom: 38px;
+    right: 20px;
+  }
+  .showcase-visual .ballot-mark svg {
+    width: 50px;
+    height: 50px;
+    transform: translate(1px, -10px);
+  }
+  .showcase-visual .file-tab {
+    right: 18px;
+    font-size: 11px;
+    padding: 8px 10px;
+  }
+  .showcase-visual .house-outline {
+    right: 18px;
+    width: 52px;
+  }
+  .showcase-copy {
+    padding-top: 18px;
+  }
+  .research-copy {
+    padding: 16px;
+  }
+  .research-visual {
+    margin-inline: 10px;
+  }
+  .research-visual .experiment-visual-caption {
+    font-size: 7px;
+  }
+}
+
+/* Work details: concise facts beside a bounded screenshot, with optional thumbnails. */
+.work-detail {
+  padding-block: 34px 90px;
+}
+.work-detail-spread {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.85fr) minmax(0, 1.35fr);
+  align-items: start;
+  gap: clamp(40px, 5vw, 76px);
+  max-width: 1120px;
+  margin: 42px auto 0;
+}
+.work-detail-copy h1 {
+  font-size: clamp(36px, 3.8vw, 56px);
+  line-height: 1.08;
+  overflow-wrap: anywhere;
+}
+.work-detail-description {
+  font-size: 17px;
+  line-height: 1.7;
+  margin-top: 22px;
+  max-width: 42ch;
+}
+.work-detail-facts {
+  margin: 30px 0 0;
+}
+.work-detail-facts > div {
+  display: grid;
+  grid-template-columns: 95px minmax(0, 1fr);
+  gap: 16px;
+  align-items: baseline;
+  padding-block: 13px;
+  border-top: 1px solid var(--line);
+}
+.work-detail-facts dt {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.work-detail-facts dd {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.work-detail-facts dd a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  margin-block: -8px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.project-gallery {
+  min-width: 0;
+}
+.project-gallery-stage {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  background: #e8e6de;
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.project-gallery-stage > img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+}
+.project-thumbnails {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+.project-thumbnails button {
+  width: 86px;
+  padding: 3px;
+  border: 1px solid var(--line);
+  background: transparent;
+  cursor: pointer;
+  min-height: 52px;
+}
+.project-thumbnails a {
+  display: block;
+  width: 86px;
+  padding: 3px;
+  border: 1px solid var(--line);
+}
+.no-js .project-thumbnails:has(button) {
+  display: none;
+}
+.project-thumbnails button[aria-pressed="true"] {
+  border: 2px solid var(--ink);
+  padding: 2px;
+  background: var(--acid);
+}
+.project-thumbnails img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+}
+.work-detail-placeholder.project-cover {
+  aspect-ratio: 16 / 9;
+}
+.work-detail-placeholder .cover-type {
+  font-size: clamp(38px, 4vw, 60px);
+}
+@media (max-width: 900px) {
+  .work-detail-spread {
+    grid-template-columns: 1fr;
+    max-width: 680px;
+    gap: 30px;
+    margin-top: 28px;
+  }
+  .work-detail-copy h1 {
+    font-size: clamp(34px, 6vw, 48px);
+  }
+  .work-detail-description {
+    max-width: 54ch;
+    font-size: 16px;
+    margin-top: 18px;
+  }
+  .work-detail-facts {
+    margin-top: 24px;
+  }
+  .work-detail {
+    padding-bottom: 56px;
+  }
+}
