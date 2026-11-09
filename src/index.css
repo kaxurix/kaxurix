@@ -193,9 +193,16 @@ em {
   line-height: 1;
 }
 .wordmark > span {
+  display: inline-flex;
+  align-items: center;
   font-size: 32px;
   margin-left: 3px;
   transition: transform 0.18s ease;
+}
+.wordmark-symbol {
+  display: block;
+  width: 1em;
+  height: 1em;
 }
 .wordmark:is(:hover, :focus-visible) > span {
   transform: rotate(45deg);

@@ -11,7 +11,7 @@ export default function ProjectDetail({ project, collection = "work" }) {
   return (
     <article className="work-detail wrap" data-scroll-section="Project">
       <a className="breadcrumb mono" href={`/${collection}`}>
-        <span aria-hidden="true">←</span> BACK TO{" "}
+        <ArrowLeft size={15} aria-hidden="true" /> BACK TO{" "}
         {collection === "lab" ? "THE LAB" : "WORK"}
       </a>
       <div className="work-detail-spread">

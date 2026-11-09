@@ -53,15 +53,22 @@ test("Smooth scrolling respects motion preferences across viewport sizes", async
   await page.mouse.move(180, 300);
   const mobileStart = await page.evaluate(() => scrollY);
   await page.mouse.wheel(0, 400);
-  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(mobileStart + 330);
-  await expect.poll(() => page.evaluate(() => scrollY)).toBeLessThan(mobileStart + 390);
+  await expect.poll(async () => Math.abs(await page.evaluate(() => scrollY) - mobileStart - 400)).toBeLessThan(5);
 });
 
-test("Mobile touch has controlled momentum and preserves horizontal gallery swipes", async ({ page, context }, testInfo) => {
+test("Mobile touch follows swipes natively and preserves horizontal gallery swipes", async ({ page, context }, testInfo) => {
   test.skip(testInfo.project.name !== "mobile", "Touch emulation");
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
   await expect(page.locator("html")).toHaveClass(/lenis/);
+  await page.evaluate(() => {
+    window.touchMoveCount = 0;
+    window.blockedTouchMoves = 0;
+    window.addEventListener("touchmove", (event) => {
+      window.touchMoveCount++;
+      if (event.defaultPrevented) window.blockedTouchMoves++;
+    }, { passive: true });
+  });
   const session = await context.newCDPSession(page);
   const swipe = async (x, y, dx, dy) => {
     await session.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x, y }] });
@@ -71,12 +78,14 @@ test("Mobile touch has controlled momentum and preserves horizontal gallery swip
       });
       await page.waitForTimeout(16);
     }
+    const atRelease = await page.evaluate(() => scrollY);
     await session.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+    return atRelease;
   };
-  await swipe(180, 650, 0, -300);
-  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(180);
-  await page.waitForTimeout(600);
-  expect(await page.evaluate(() => scrollY)).toBeLessThan(450);
+  const atRelease = await swipe(180, 650, 0, -300);
+  expect(atRelease).toBeGreaterThan(240);
+  expect(await page.evaluate(() => window.touchMoveCount)).toBeGreaterThan(0);
+  expect(await page.evaluate(() => window.blockedTouchMoves)).toBe(0);
   await page.goto("/lab");
   const rail = page.getByRole("region", { name: "Lab photo gallery" });
   await rail.scrollIntoViewIfNeeded();

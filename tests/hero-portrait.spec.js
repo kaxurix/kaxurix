@@ -96,6 +96,12 @@ test("Ten larger logo satellites fit the photo column without changing any page 
   for (const width of [1440, 820, 390, 320]) {
     await page.setViewportSize({ width, height: 900 });
     const box = await scene.boundingBox();
+    const portrait = await scene.locator(".hero-portrait").boundingBox();
+    const backgroundBottom = await scene.evaluate((element) => {
+      const bounds = element.getBoundingClientRect();
+      return bounds.bottom - parseFloat(getComputedStyle(element, "::before").bottom);
+    });
+    expect(Math.abs(portrait.y + portrait.height - backgroundBottom)).toBeLessThan(1);
     const photo = await scene.locator(".hero-portrait img").boundingBox();
     const face = { left: photo.x + photo.width * 0.3, right: photo.x + photo.width * 0.76, top: photo.y + photo.height * 0.04, bottom: photo.y + photo.height * 0.34 };
     for (const logo of await stack.getByRole("listitem").all()) {

@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Play } from "lucide-react";
 import PhotoRail from "./PhotoRail";
 import StoryLightbox from "./StoryLightbox";
 import { JournalImage } from "./Visuals";
@@ -47,7 +47,7 @@ export default function LifeFilm({ activities }) {
             >
               <JournalImage activity={activity} index={index} />
               <span className="film-frame-edge mono" aria-hidden="true">
-                <span>{String(index + 1).padStart(2, "0")} ▸</span>
+                <span className="film-frame-number">{String(index + 1).padStart(2, "0")} <Play size={8} fill="currentColor" aria-hidden="true" /></span>
                 <span>{formatDate(activity.date)} / LIFE</span>
               </span>
               <span className="film-open-label mono" aria-hidden="true">

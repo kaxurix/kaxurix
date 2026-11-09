@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
-import { getPage, routes } from "../src/data/content.js";
+import { getPage, routes, person } from "../src/data/content.js";
 
 for (const route of routes) {
   test(`direct entry, semantics, assets, and layout: ${route}`, async ({
@@ -23,9 +23,7 @@ for (const route of routes) {
     await expect(page.locator("h1")).toBeVisible();
     await expect(page.locator("main")).toHaveCount(1);
     const meta = getPage(route);
-    await expect(page).toHaveTitle(
-      meta.type === "home" ? meta.title : `${meta.title} — kaxurix`,
-    );
+    await expect(page).toHaveTitle(person.name);
     await expect(page.locator('meta[name="description"]')).toHaveAttribute(
       "content",
       meta.description,

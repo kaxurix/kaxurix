@@ -1,12 +1,20 @@
-/* This file changes the photograph only. Hero layout and type stay in the
-   existing index/responsive/refinements styles. */
+/* Portrait staging; the editorial type and grid live in refinements.css. */
 .hero-portrait-scene {
   position: relative;
   isolation: isolate;
   width: 100%;
   max-width: 500px;
-  height: 440px;
+  height: 490px;
   margin-inline: auto;
+}
+.hero-portrait-scene::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 5% 5% 7%;
+  border: 1px solid #d5dccb;
+  border-radius: 44% 44% 3px 3px;
+  background: linear-gradient(155deg, #e9ece2, #dfe5d5);
 }
 .portrait-studio-light {
   position: absolute;
@@ -17,18 +25,18 @@
     radial-gradient(ellipse at 78% 72%, #dbbc8940, transparent 58%);
   mask-image: radial-gradient(ellipse, #000 20%, transparent 72%);
   filter: blur(18px);
-  opacity: 0.65;
+  opacity: 0.3;
   transform: translate3d(calc(var(--portrait-x, 0) * -10px), calc(var(--portrait-y, 0) * -7px), 0);
   transition: opacity 600ms ease;
   pointer-events: none;
 }
-.hero-portrait-scene:hover .portrait-studio-light { opacity: 1; }
+.hero-portrait-scene:hover .portrait-studio-light { opacity: 0.5; }
 .hero-portrait-scene .hero-portrait {
   position: absolute;
   z-index: 2;
-  inset: 44px 0 0;
-  width: min(56%, 240px);
-  height: calc(100% - 44px);
+  inset: 10px 0 7%;
+  width: min(58%, 260px);
+  height: auto;
   margin-inline: auto;
   padding: 0;
   background: transparent;
@@ -51,7 +59,7 @@
   position: absolute;
   left: 30%;
   right: 30%;
-  bottom: 14px;
+  bottom: calc(7% + 4px);
   height: 15px;
   border-radius: 50%;
   background: #343c2820;
@@ -117,14 +125,14 @@
   }
 }
 @media (max-width: 1100px) {
-  .hero-portrait-scene { height: 400px; }
+  .hero-portrait-scene { height: 420px; }
   .hero-portrait-scene .hero-portrait { width: min(68%, 230px); }
   .portrait-satellite { left: var(--satellite-compact-x, var(--satellite-x)); }
   .portrait-satellite--mysql { --satellite-compact-x: 10%; }
   .portrait-satellite--vuejs { --satellite-compact-x: 91%; }
 }
 @media (max-width: 760px) {
-  .hero-portrait-scene { height: 350px; max-width: 400px; }
+  .hero-portrait-scene { height: 390px; max-width: 400px; }
   .hero-portrait-scene .hero-portrait { width: min(65%, 220px); }
   .portrait-satellite { width: max(30px, calc(var(--satellite-size) * 0.88)); }
   .portrait-satellite--mysql { --satellite-compact-x: 16%; }
@@ -132,7 +140,7 @@
   .portrait-satellite--vuejs { --satellite-compact-x: 88%; }
 }
 @media (max-width: 370px) {
-  .hero-portrait-scene { height: 330px; }
+  .hero-portrait-scene { height: 350px; }
 }
 @media (prefers-reduced-motion: reduce), (hover: none) {
   .portrait-motion-layer, .portrait-contact-shadow, .portrait-studio-light { transform: none; }

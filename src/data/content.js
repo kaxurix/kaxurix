@@ -1,6 +1,6 @@
 // The original portfolio is the source for published facts. Null means unknown,
 // never a date, result, or link inferred by the interface. See CONTENT.md.
-import { newestFirst } from "../utils/collectionOrder";
+import { newestFirst } from "../utils/collectionOrder.js";
 export const person = {
   name: "Kautsar Rifqi Aditya",
   preferredName: "Kautsar",
@@ -401,23 +401,23 @@ export function getPage(path) {
   const meta = {
     "": [
       "home",
-      "Kautsar Rifqi Aditya — kaxurix",
+      person.name,
       "Kautsar Rifqi Aditya, full-stack web developer in Purwokerto. Selected websites, applications, and project explorations.",
     ],
     work: [
       "work",
       "Work",
-      "Selected web applications and websites by Kautsar Rifqi Aditya.",
+      "Selected websites and web applications by Kautsar Rifqi Aditya, including Ngudi Laras, Soedirman Technophoria, and Catalyst.",
     ],
     lab: [
       "lab",
       "The Lab",
-      "Eksplorasi proyek Kautsar: Fuel Tracker, POS Warung, dan Riu Logistik.",
+      "Explore Fuel Tracker, POS Warung, and Riu Logistik: practical web development experiments by Kautsar Rifqi Aditya.",
     ],
     life: [
       "life",
       "Life lately",
-      "Community, everyday moments, certificates, and life outside the terminal.",
+      "Community activities, professional certificates, and life outside the terminal with Kautsar Rifqi Aditya.",
     ],
     about: [
       "about",

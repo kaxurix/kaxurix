@@ -7,7 +7,6 @@ export default function useSmoothScroll() {
 
   useEffect(() => {
     const preference = matchMedia("(prefers-reduced-motion: no-preference)");
-    const mobile = matchMedia("(max-width: 760px)");
     const syncDialog = () => {
       if (document.body.style.overflow === "hidden") scroller.current?.stop();
       else scroller.current?.start();
@@ -18,13 +17,11 @@ export default function useSmoothScroll() {
       if (!preference.matches) return;
       scroller.current = new Lenis({
         autoRaf: true,
-        lerp: mobile.matches ? 0.1 : 0.12,
+        lerp: 0.12,
         smoothWheel: true,
-        wheelMultiplier: mobile.matches ? 0.9 : 1,
-        syncTouch: mobile.matches,
-        touchMultiplier: 1,
-        syncTouchLerp: 0.075,
-        touchInertiaExponent: 1.4,
+        wheelMultiplier: 1,
+        // Let the browser handle finger tracking and fling momentum on touchscreens.
+        syncTouch: false,
         anchors: { offset: -24 },
         prevent: (node) => node.matches("dialog, .story-copy, textarea, select, [data-lenis-prevent]"),
         // Keep horizontal gallery gestures, pinch zoom, and Shift+wheel native.
@@ -35,13 +32,11 @@ export default function useSmoothScroll() {
     };
     configure();
     preference.addEventListener("change", configure);
-    mobile.addEventListener("change", configure);
     const observer = new MutationObserver(syncDialog);
     observer.observe(document.body, { attributes: true, attributeFilter: ["style"] });
     return () => {
       observer.disconnect();
       preference.removeEventListener("change", configure);
-      mobile.removeEventListener("change", configure);
       scroller.current?.destroy();
       scroller.current = null;
     };

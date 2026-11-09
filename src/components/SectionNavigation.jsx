@@ -52,12 +52,12 @@ export default function SectionNavigation() {
     const limit = Math.max(0, document.documentElement.scrollHeight - innerHeight);
     const top = index === 0 ? 0 : Math.min(limit, Math.max(0, scrollY + target.getBoundingClientRect().top - 24));
     if (scroller.current) {
-      // Ease in as well as out; longer journeys get more time to settle.
+      // A short lead-in and longer slowdown keep section changes from feeling staged.
       const distance = Math.abs(top - scrollY);
       scroller.current.scrollTo(top, {
-        duration: Math.min(1.65, Math.max(1, 0.85 + distance / 1600)),
+        duration: Math.min(1.4, Math.max(0.95, 0.75 + distance / 2200)),
         lerp: 0,
-        easing: (progress) => (1 - Math.cos(Math.PI * progress)) / 2,
+        easing: (progress) => progress * progress * (5 - 6 * progress + 2 * progress * progress),
       });
     }
     else window.scrollTo({ top, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });

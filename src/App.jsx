@@ -1,3 +1,4 @@
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { Header, Footer, SectionLabel, TextLink } from "./components/Shell";
 import {
   AboutPortrait,
@@ -13,6 +14,7 @@ import ProjectDetail from "./components/ProjectDetail";
 import { formatDate } from "./utils/formatDate";
 import AmbientBackground from "./components/AmbientBackground";
 import SectionNavigation from "./components/SectionNavigation";
+import useEditorialMotion from "./hooks/useEditorialMotion";
 
 const collectionIntro = {
   work: {
@@ -84,7 +86,7 @@ function AboutPage() {
             </p>
             <div className="about-actions">
               <a href={`mailto:${person.email}`} className="button button-ink">
-                Say hello <span aria-hidden="true">↗</span>
+                Say hello <ArrowUpRight size={17} aria-hidden="true" />
               </a>
               <TextLink href={person.cv} external>
                 View my CV
@@ -156,7 +158,7 @@ function DetailPage({ type, item }) {
   return (
     <article className={`detail-page detail-${type} wrap`} data-scroll-section="Story">
       <a className="breadcrumb mono" href={`/${type}`}>
-        <span aria-hidden="true">←</span> BACK TO {type.toUpperCase()}
+        <ArrowLeft size={15} aria-hidden="true" /> BACK TO {type.toUpperCase()}
       </a>
       <header className="detail-heading">
         <SectionLabel>
@@ -218,12 +220,13 @@ function NotFound() {
 }
 
 export default function App({ path = globalThis.location?.pathname || "/" }) {
+  useEditorialMotion();
   const page = getPage(path);
   return (
     <>
       <AmbientBackground />
       <Header active={page.type} />
-      <main id="main" tabIndex={-1}>
+      <main id="main" tabIndex={-1} className={page.type === "home" ? "home-page" : undefined}>
         {page.item && ["work", "lab"].includes(page.type) ? (
           <ProjectDetail project={page.item} collection={page.type} />
         ) : page.item ? (
@@ -231,10 +234,10 @@ export default function App({ path = globalThis.location?.pathname || "/" }) {
         ) : page.type === "home" ? (
           <>
             <Hero />
-            <Human />
-            <WorkSection />
+            <div className="home-section home-section--about"><Human /></div>
+            <div className="home-section home-section--work"><WorkSection /></div>
             <LabSection />
-            <LifeSection />
+            <div className="home-section home-section--life"><LifeSection /></div>
           </>
         ) : page.type === "about" ? (
           <AboutPage />

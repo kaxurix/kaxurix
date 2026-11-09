@@ -60,12 +60,10 @@ test("Work and Lab use single scrolling rows with usable case-study links", asyn
   await expect(lab.getByRole("link", { name: /^Read notes:/ })).toHaveCount(3);
   await expect(lab.locator(".research-index")).toHaveCount(3);
   await expect(lab.locator(".browser-bar")).toHaveCount(0);
-  const labFrames = await lab
-    .locator(".photo-rail-item")
-    .evaluateAll((items) =>
-      items.map((item) => item.getBoundingClientRect().top),
-    );
-  expect(Math.max(...labFrames) - Math.min(...labFrames)).toBeLessThan(1);
+  await expect.poll(() => lab.locator(".photo-rail-item").evaluateAll((items) => {
+    const tops = items.map((item) => item.getBoundingClientRect().top);
+    return Math.max(...tops) - Math.min(...tops);
+  })).toBeLessThan(1);
   await page.getByRole("link", { name: "Explore Fuel Tracker" }).click();
   await expect(page).toHaveURL(/\/lab\/tracking-bbm$/);
   await expect(page.locator(".work-detail-facts dt")).toHaveText([

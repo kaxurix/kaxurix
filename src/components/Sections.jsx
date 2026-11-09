@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
-import WorkArchiveControls from "./WorkArchiveControls";
-import { collections, experiments, person, projects } from "../data/content";
+import { collections, experiments, person } from "../data/content";
 import { SectionLabel, TextLink } from "./Shell";
 import {
   ExperimentCover,
@@ -11,7 +9,6 @@ import {
 import LifeFilm from "./LifeFilm";
 import PhotoRail from "./PhotoRail";
 import { formatDate } from "../utils/formatDate";
-import { compareNewest } from "../utils/collectionOrder";
 import HeroPortrait from "./HeroPortrait";
 
 export function Hero() {
@@ -24,9 +21,8 @@ export function Hero() {
             <strong>{person.name}</strong>
           </p>
           <h1 id="hero-heading">
-            Thoughtful work.
-            <br />
-            <span className="highlight">Built for the web.</span>
+            <span className="hero-line"><span>Thoughtful work.</span></span>
+            <span className="hero-line"><span className="highlight">Built for the web.</span></span>
           </h1>
           <p className="hero-description">Websites, applications, and practical exploration.</p>
           <div className="hero-actions">
@@ -70,9 +66,9 @@ export function Human() {
   );
 }
 
-export function ProjectCard({ project, index = 0 }) {
+export function ProjectCard({ project, index = 0, featured = false }) {
   return (
-    <article className="showcase-project">
+    <article className={`showcase-project${featured ? " showcase-project--featured" : ""}`}>
       <a
         className="showcase-visual"
         href={`/work/${project.slug}`}
@@ -92,6 +88,7 @@ export function ProjectCard({ project, index = 0 }) {
         <ProjectCover project={project} />
       </a>
       <div className="showcase-copy">
+        {featured && <p className="showcase-selection mono">SELECTED PROJECT / {String(index + 1).padStart(2, "0")}</p>}
         <p className="showcase-kicker mono">{project.category}</p>
         <h3>
           <a href={`/work/${project.slug}`}>{project.title}</a>
@@ -113,19 +110,7 @@ export function ProjectCard({ project, index = 0 }) {
 }
 
 export function WorkSection({ full = false }) {
-  const [technology, setTechnology] = useState("");
-  const [order, setOrder] = useState("newest");
-  const visibleProjects = projects.filter(
-    (project) => !full || !technology || project.tags.includes(technology),
-  );
-  if (!full || order !== "archive") {
-    visibleProjects.sort((a, b) => {
-      if (order === "newest") return compareNewest(a, b);
-      if (!a.date) return b.date ? 1 : 0;
-      if (!b.date) return -1;
-      return a.date.localeCompare(b.date);
-    });
-  }
+  const visibleProjects = collections.work;
   return (
     <section
       className={`work-section wrap${full ? " collection-section" : " section-space"}`}
@@ -143,18 +128,16 @@ export function WorkSection({ full = false }) {
           </div>
         </>
       )}
-      {full && (
-        <WorkArchiveControls
-          projects={projects}
-          technology={technology}
-          onTechnologyChange={setTechnology}
-          order={order}
-          onOrderChange={setOrder}
-          count={visibleProjects.length}
+      {!full && visibleProjects[0] && (
+        <ProjectCard
+          featured
+          project={visibleProjects[0]}
+          index={0}
         />
       )}
-      <PhotoRail key={`${technology}:${order}`} label="Work" theme="work">
-        {visibleProjects.map((project) => (
+      {!full && <p className="work-continuation mono">MORE SELECTED WORK</p>}
+      <PhotoRail label="Work" theme="work">
+        {(full ? visibleProjects : visibleProjects.slice(1)).map((project) => (
           <ProjectCard
             key={project.slug}
             project={project}
@@ -211,7 +194,7 @@ export function LabSection({ full = false }) {
                     href={`/lab/${experiment.slug}`}
                     aria-label={`Read notes: ${experiment.title}`}
                   >
-                    Open notes <span aria-hidden="true">↗</span>
+                    Open notes <ArrowUpRight size={13} aria-hidden="true" />
                   </a>
                 </div>
               </div>

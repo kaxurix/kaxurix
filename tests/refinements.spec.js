@@ -1,44 +1,23 @@
 import { test, expect } from "@playwright/test";
 
-test("Work filters reset a scrolled rail and keep single-result controls accurate", async ({ page }) => {
+test("Work shows the full newest-first collection without filtering or sorting", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/work");
+  await expect(page.locator(".work-archive-controls")).toHaveCount(0);
+  await expect(page.getByRole("combobox")).toHaveCount(0);
+  await expect(page.getByRole("group", { name: "FILTER BY STACK" })).toHaveCount(0);
+  await expect(page.locator(".showcase-copy h3")).toHaveText([
+    "Ngudi Laras", "Soedirman Technophoria", "Catalyst", "Im Home Kontraktor", "Idealibs",
+  ]);
   const rail = page.getByRole("region", { name: "Work photo gallery" });
   await rail.focus();
   await page.keyboard.press("End");
   await expect.poll(() => rail.evaluate((element) => element.scrollLeft)).toBeGreaterThan(100);
-  await page.getByRole("button", { name: "Next.js", exact: true }).click();
-  await expect(page.locator(".showcase-project")).toHaveCount(1);
-  await expect(rail.getByRole("heading", { name: "Idealibs", exact: true })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Next.js", exact: true })).toHaveAttribute("aria-pressed", "true");
-  await expect.poll(() => rail.evaluate((element) => element.scrollLeft)).toBeLessThan(2);
   await expect(page.getByRole("button", { name: "Next Work photo", exact: true })).toBeDisabled();
-  await expect(page.getByRole("button", { name: "Previous Work photo", exact: true })).toBeDisabled();
-  await page.getByRole("button", { name: "Laravel", exact: true }).click();
-  await expect(page.locator(".showcase-copy h3")).toHaveText(["Ngudi Laras", "Soedirman Technophoria", "Catalyst"]);
-  await expect(page.locator(".archive-summary [role=status]")).toHaveText("3 of 5 projects / Laravel");
-  await page.getByRole("button", { name: "All projects", exact: true }).click();
-  await expect(page.locator(".showcase-project")).toHaveCount(5);
+  await page.keyboard.press("Home");
+  await expect.poll(() => rail.evaluate((element) => element.scrollLeft)).toBeLessThan(2);
   await page.getByRole("button", { name: "Next Work photo", exact: true }).click();
   await expect.poll(() => rail.evaluate((element) => element.scrollLeft)).toBeGreaterThan(100);
-});
-
-test("Work sorting composes with technology filters and preserves archive data", async ({ page }) => {
-  await page.goto("/work");
-  await expect(page.getByRole("combobox", { name: "Sort by" })).toHaveValue("newest");
-  await expect(page.locator(".showcase-copy h3")).toHaveText([
-    "Ngudi Laras", "Soedirman Technophoria", "Catalyst", "Im Home Kontraktor", "Idealibs",
-  ]);
-  await page.getByRole("button", { name: "Laravel", exact: true }).click();
-  await expect(page.locator(".showcase-copy h3")).toHaveText(["Ngudi Laras", "Soedirman Technophoria", "Catalyst"]);
-  await page.getByRole("combobox", { name: "Sort by" }).selectOption("oldest");
-  await expect(page.locator(".showcase-copy h3")).toHaveText(["Catalyst", "Ngudi Laras", "Soedirman Technophoria"]);
-  await page.getByRole("button", { name: "All projects", exact: true }).click();
-  await page.getByRole("combobox", { name: "Sort by" }).selectOption("archive");
-  await expect(page.locator(".showcase-copy h3").first()).toHaveText("Idealibs");
-  await page.goto("/");
-  await expect(page.locator(".work-archive-controls")).toHaveCount(0);
-  await expect(page.locator(".showcase-copy h3").first()).toHaveText("Ngudi Laras");
 });
 
 test("Project navigation wraps within Work and Lab collections", async ({ page }) => {
@@ -86,7 +65,7 @@ test("Archive and project navigation remain usable without JavaScript", async ({
   try {
     await page.goto(`${testInfo.project.use.baseURL || "http://127.0.0.1:4173"}/work`);
     await expect(page.locator(".showcase-project")).toHaveCount(5);
-    await expect(page.locator(".work-archive-controls")).toBeHidden();
+    await expect(page.locator(".work-archive-controls")).toHaveCount(0);
     await expect(page.getByRole("button", { name: "Copy email address" })).toBeHidden();
     await page.getByRole("link", { name: "View project", exact: true }).first().click();
     await page.getByRole("navigation", { name: "More projects" }).getByRole("link", { name: /Next project/ }).click();
@@ -96,13 +75,15 @@ test("Archive and project navigation remain usable without JavaScript", async ({
   }
 });
 
-test("Work filters support keyboard input on a narrow phone", async ({ page }) => {
+test("Work gallery supports keyboard navigation on a narrow phone", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width: 320, height: 760 });
   await page.goto("/work");
-  await page.getByRole("button", { name: "WordPress", exact: true }).focus();
-  await page.keyboard.press("Enter");
-  await expect(page.locator(".showcase-copy h3")).toHaveText(["Im Home Kontraktor"]);
-  await expect(page.getByRole("button", { name: "WordPress", exact: true })).toBeFocused();
+  const rail = page.getByRole("region", { name: "Work photo gallery" });
+  await rail.focus();
+  await page.keyboard.press("End");
+  await rail.getByRole("link", { name: "View project", exact: true }).last().click();
+  await expect(page).toHaveURL(/\/work\/idealibs$/);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Idealibs");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  await page.screenshot({ path: `artifacts/archive-narrow-${test.info().project.name}.png`, fullPage: true });
 });

@@ -1,1 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#c9f64a"/><g stroke="#181818" stroke-width="5"><path d="M32 10v44M10 32h44M16.5 16.5l31 31M16.5 47.5l31-31"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>Kautsar Rifqi Aditya</title>
+  <rect width="64" height="64" rx="12" fill="#242720"/>
+  <path d="M19 14v36m25-36L20 33l25 17" fill="none" stroke="#f6f5f0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

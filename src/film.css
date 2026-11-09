@@ -336,6 +336,11 @@
   line-height: 1;
   letter-spacing: 0.08em;
 }
+.film-frame-number {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
 
 .photo-gallery--life .gallery-meta {
   margin-top: 58px;

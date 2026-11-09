@@ -7,10 +7,10 @@
   pointer-events: none;
   overflow: hidden;
   background-image:
-    linear-gradient(#7c896714 1px, transparent 1px),
-    linear-gradient(90deg, #7c896714 1px, transparent 1px),
-    radial-gradient(ellipse at 90% 8%, #c8d5ae60, transparent 58%),
-    radial-gradient(ellipse at 5% 88%, #e7c9a344, transparent 60%);
+    linear-gradient(#7c896708 1px, transparent 1px),
+    linear-gradient(90deg, #7c896708 1px, transparent 1px),
+    radial-gradient(ellipse at 90% 8%, #c8d5ae24, transparent 58%),
+    radial-gradient(ellipse at 5% 88%, #e7c9a318, transparent 60%);
   background-size: var(--grid-size) var(--grid-size), var(--grid-size) var(--grid-size), 100% 100%, 100% 100%;
 }
 .ambient-background::before,
@@ -38,7 +38,7 @@
 }
 .ambient-background[data-interactive="true"][data-hover="true"]::before,
 .ambient-background[data-interactive="true"][data-hover="true"]::after {
-  opacity: 1;
+  opacity: 0.3;
 }
 #main, .site-footer {
   position: relative;
