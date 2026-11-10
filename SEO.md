@@ -8,6 +8,8 @@ Structured data describes the real person, website, pages, collection items and 
 
 The build generates `sitemap.xml` from the actual published routes and references it from `robots.txt`. No guessed `lastmod` dates are emitted. The checked-in social image is `public/og/portfolio.png` (1200 × 630); regenerate it with `node scripts/generate-social-card.mjs` when identity, portrait or domain changes. Chrome from the local Playwright setup is needed only to regenerate the image, not to build or host the site.
 
+Search identity uses `Kautsar Rifqi Aditya` as the preferred `WebSite` name and `kaxurix` as its alternative. Search engines choose the displayed site name; these signals do not replace the visible `vercel.app` hostname. The existing K monogram has a stable 96px PNG favicon, an ICO fallback (16/32/48px), an SVG for browsers, and a 180px Apple touch icon. Regenerate these checked-in assets after editing `public/favicon.svg` with `node scripts/generate-favicons.mjs`. Google must recrawl the homepage and icon before a search-result update; display is not guaranteed. See [Google's favicon guidelines](https://developers.google.com/search/docs/appearance/favicon-in-search) and [site-name guidance](https://developers.google.com/search/docs/appearance/site-names).
+
 ## After deployment
 
 1. Verify that the production domain is correct and `/work`, a detail route, `/sitemap.xml`, `/robots.txt` and `/og/portfolio.png` load publicly over HTTPS.

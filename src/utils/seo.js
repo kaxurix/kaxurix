@@ -44,6 +44,7 @@ export function getSeo(path) {
         "@id": websiteId,
         url: SITE_URL,
         name: person.name,
+        alternateName: person.username,
         inLanguage: "en",
         publisher: { "@id": personId },
       },

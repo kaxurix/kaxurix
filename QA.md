@@ -1,5 +1,11 @@
 ﻿# Verification — distinct Work, Lab, and Life compositions
 
+## Search favicon and site-name signals — 10 November 2026
+
+The public homepage advertised only the versioned SVG favicon; PNG and ICO URLs returned HTTP 404. Added a stable 96px PNG favicon, multi-size ICO (16/32/48px), and 180px Apple touch icon by rasterizing the existing K monogram, keeping the browser SVG. The generation script is separate from production builds. Added `kaxurix` as the alternative WebSite name while retaining `Kautsar Rifqi Aditya` as the preferred name and tab title. Updated SEO maintenance instructions.
+
+Build, lint and the focused desktop/mobile SEO suite passed **eight checks**, including response metadata for all 19 routes, decoding every advertised icon, PNG sizes, ICO directory integrity and site-name fields. Inspected the generated PNG. These changes provide crawlable favicon and name signals; Google's search-result display and refresh timing remain external. The full suite was not rerun for this metadata and asset change.
+
 ## Simplify Work and prepare SEO — 10 November 2026
 
 Removed Work's stack filter and sort selector, their state, component and unused CSS. All five projects remain newest-first in the existing horizontal gallery; the homepage's featured project and supporting rail remain. Updated coverage for keyboard navigation, narrow screens and no-JavaScript use.

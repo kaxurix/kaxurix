@@ -51,6 +51,9 @@ test("Every public route serves crawlable metadata and linked structured data be
     const schema = head.schemas[0];
     expect(schema["@context"]).toBe("https://schema.org");
     const graph = schema["@graph"];
+    const website = graph.find((node) => node["@type"] === "WebSite");
+    expect(website.name).toBe("Kautsar Rifqi Aditya");
+    expect(website.alternateName).toBe("kaxurix");
     const webPage = graph.find((node) => node["@id"] === `${canonical}#webpage`);
     expect(webPage.url).toBe(canonical);
     const ids = new Set(graph.map((node) => node["@id"]));
@@ -85,6 +88,54 @@ test("Every public route serves crawlable metadata and linked structured data be
     if (route !== "/") {
       const crumbs = graph.find((node) => node["@type"] === "BreadcrumbList");
       expect(crumbs.itemListElement.at(-1).item).toBe(canonical);
+    }
+  }
+});
+
+test("Homepage exposes stable raster favicons and each advertised icon decodes", async ({ page, request }) => {
+  const response = await request.get("/");
+  const html = await response.text();
+  const icons = await page.evaluate((source) => {
+    const doc = new DOMParser().parseFromString(source, "text/html");
+    return [...doc.querySelectorAll('link[rel*="icon"]')].map((node) => ({
+      rel: node.getAttribute("rel"),
+      href: node.getAttribute("href"),
+      sizes: node.getAttribute("sizes"),
+      type: node.getAttribute("type"),
+    }));
+  }, html);
+  expect(icons).toContainEqual({ rel: "icon", href: "/favicon.png", sizes: "96x96", type: "image/png" });
+  expect(icons).toContainEqual({ rel: "icon", href: "/favicon.svg", sizes: "any", type: "image/svg+xml" });
+  expect(icons).toContainEqual({ rel: "shortcut icon", href: "/favicon.ico", sizes: null, type: null });
+  expect(icons).toContainEqual({ rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180", type: null });
+  await page.goto("/");
+  for (const icon of icons) {
+    expect(icon.href).not.toContain("?");
+    const asset = await request.get(icon.href);
+    expect(asset.status()).toBe(200);
+    expect(asset.headers()["content-type"]).not.toContain("text/html");
+    const dimensions = await page.evaluate(async (src) => {
+      const img = new Image();
+      img.src = src;
+      await img.decode();
+      return [img.naturalWidth, img.naturalHeight];
+    }, icon.href);
+    if (icon.href.endsWith(".png")) {
+      const size = icon.href === "/favicon.png" ? 96 : 180;
+      expect(dimensions).toEqual([size, size]);
+    }
+    if (icon.href.endsWith(".ico")) {
+      const ico = await asset.body();
+      expect(ico.readUInt16LE(0)).toBe(0);
+      expect(ico.readUInt16LE(2)).toBe(1);
+      expect(ico.readUInt16LE(4)).toBe(3);
+      for (let index = 0; index < 3; index += 1) {
+        const entry = 6 + index * 16;
+        const offset = ico.readUInt32LE(entry + 12);
+        const length = ico.readUInt32LE(entry + 8);
+        expect(ico.subarray(offset, offset + 8).toString("hex")).toBe("89504e470d0a1a0a");
+        expect(offset + length).toBeLessThanOrEqual(ico.length);
+      }
     }
   }
 });
